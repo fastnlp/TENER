@@ -125,8 +125,8 @@ class RelativeMultiHeadAttn(nn.Module):
         D_ = torch.einsum('nd,ld->nl', self.r_w_bias, pos_embed)[None, :, None]  # head x 2max_len, 每个head对位置的bias
         B_ = torch.einsum('bnqd,ld->bnql', q, pos_embed)  # bsz x head  x max_len x 2max_len，每个query对每个shift的偏移
         E_ = torch.einsum('bnqd,ld->bnql', k, pos_embed)  # bsz x head x max_len x 2max_len, key对relative的bias
-        BDE = B_ + D_  # bsz x head x max_len x 2max_len, 要转换为bsz x head x max_len x max_len
-        BD = self._shift(BD) + self._transpose_shift(E_)
+        BD = B_ + D_  # bsz x head x max_len x 2max_len, 要转换为bsz x head x max_len x max_len
+        BDE = self._shift(BD) + self._transpose_shift(E_)
         attn = AC + BDE
 
         attn = attn / self.scale
