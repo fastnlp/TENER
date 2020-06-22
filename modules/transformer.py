@@ -22,7 +22,7 @@ class MultiHeadAttn(nn.Module):
         assert d_model%n_head==0
 
         self.n_head = n_head
-        self.qkv_linear = nn.Linear(d_model, 3*d_model)
+        self.qkv_linear = nn.Linear(d_model, 3*d_model, bias=False)
         self.fc = nn.Linear(d_model, d_model)
         self.dropout_layer = nn.Dropout(dropout)
 
